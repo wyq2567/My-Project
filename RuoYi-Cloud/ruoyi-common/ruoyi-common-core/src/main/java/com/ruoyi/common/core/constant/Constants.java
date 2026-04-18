@@ -172,5 +172,15 @@ public class Constants
          * 仅本人数据权限
          */
         public static final String DATA_SCOPE_SELF = "5";
+
     }
+    /**
+     * 一级分类ID
+     */
+    public static final String PARENT_ID_ZERO = "000";
+    /**
+     * 一级分类ID
+     */
+    public static final String PARENT_ID_ONE = "001";
+
 }
