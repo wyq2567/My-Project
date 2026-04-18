@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.product.mapper.TbProductMapper">
+    
+    <resultMap type="TbProduct" id="TbProductResult">
+        <result property="productNo"    column="product_no"    />
+        <result property="sequenceNo"    column="sequence_no"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="categoryCode"    column="category_code"    />
+        <result property="productName"    column="product_name"    />
+        <result property="isEnabled"    column="is_enabled"    />
+        <result property="unitCode"    column="unit_code"    />
+        <result property="rememberLastPrice"    column="remember_last_price"    />
+        <result property="unitWeight"    column="unit_weight"    />
+        <result property="unitVolume"    column="unit_volume"    />
+        <result property="remark"    column="remark"    />
+        <result property="imageCode"    column="image_code"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="dateTime"    column="date_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="delFlg"    column="del_flg"    />
+    </resultMap>
+
+    <sql id="selectTbProductVo">
+        select product_no, sequence_no, parent_id, category_code, product_name, is_enabled, unit_code, remember_last_price, unit_weight, unit_volume, remark, image_code, create_time, date_time, create_by, update_by, del_flg from tb_product
+    </sql>
+
+    <select id="selectTbProductList" parameterType="TbProduct" resultMap="TbProductResult">
+        <include refid="selectTbProductVo"/>
+        <where>  
+            <if test="productNo != null  and productNo != ''"> and product_no = #{productNo}</if>
+            <if test="sequenceNo != null "> and sequence_no = #{sequenceNo}</if>
+            <if test="parentId != null  and parentId != ''"> and parent_id = #{parentId}</if>
+            <if test="categoryCode != null  and categoryCode != ''"> and category_code = #{categoryCode}</if>
+            <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectTbProductByProductNo" parameterType="String" resultMap="TbProductResult">
+        <include refid="selectTbProductVo"/>
+        where product_no = #{productNo}
+    </select>
+
+    <insert id="insertTbProduct" parameterType="TbProduct">
+        insert into tb_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productNo != null">product_no,</if>
+            <if test="sequenceNo != null">sequence_no,</if>
+            <if test="parentId != null and parentId != ''">parent_id,</if>
+            <if test="categoryCode != null and categoryCode != ''">category_code,</if>
+            <if test="productName != null and productName != ''">product_name,</if>
+            <if test="isEnabled != null">is_enabled,</if>
+            <if test="unitCode != null and unitCode != ''">unit_code,</if>
+            <if test="rememberLastPrice != null">remember_last_price,</if>
+            <if test="unitWeight != null">unit_weight,</if>
+            <if test="unitVolume != null">unit_volume,</if>
+            <if test="remark != null">remark,</if>
+            <if test="imageCode != null">image_code,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="dateTime != null">date_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="delFlg != null">del_flg,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productNo != null">#{productNo},</if>
+            <if test="sequenceNo != null">#{sequenceNo},</if>
+            <if test="parentId != null and parentId != ''">#{parentId},</if>
+            <if test="categoryCode != null and categoryCode != ''">#{categoryCode},</if>
+            <if test="productName != null and productName != ''">#{productName},</if>
+            <if test="isEnabled != null">#{isEnabled},</if>
+            <if test="unitCode != null and unitCode != ''">#{unitCode},</if>
+            <if test="rememberLastPrice != null">#{rememberLastPrice},</if>
+            <if test="unitWeight != null">#{unitWeight},</if>
+            <if test="unitVolume != null">#{unitVolume},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="imageCode != null">#{imageCode},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="dateTime != null">#{dateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="delFlg != null">#{delFlg},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbProduct" parameterType="TbProduct">
+        update tb_product
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sequenceNo != null">sequence_no = #{sequenceNo},</if>
+            <if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
+            <if test="categoryCode != null and categoryCode != ''">category_code = #{categoryCode},</if>
+            <if test="productName != null and productName != ''">product_name = #{productName},</if>
+            <if test="isEnabled != null">is_enabled = #{isEnabled},</if>
+            <if test="unitCode != null and unitCode != ''">unit_code = #{unitCode},</if>
+            <if test="rememberLastPrice != null">remember_last_price = #{rememberLastPrice},</if>
+            <if test="unitWeight != null">unit_weight = #{unitWeight},</if>
+            <if test="unitVolume != null">unit_volume = #{unitVolume},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="imageCode != null">image_code = #{imageCode},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="dateTime != null">date_time = #{dateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="delFlg != null">del_flg = #{delFlg},</if>
+        </trim>
+        where product_no = #{productNo}
+    </update>
+
+    <delete id="deleteTbProductByProductNo" parameterType="String">
+        delete from tb_product where product_no = #{productNo}
+    </delete>
+
+    <delete id="deleteTbProductByProductNos" parameterType="String">
+        delete from tb_product where product_no in 
+        <foreach item="productNo" collection="array" open="(" separator="," close=")">
+            #{productNo}
+        </foreach>
+    </delete>
+</mapper>

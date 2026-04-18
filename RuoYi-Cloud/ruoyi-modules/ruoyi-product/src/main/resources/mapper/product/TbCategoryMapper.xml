@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.product.mapper.TbCategoryMapper">
+
+    <resultMap type="TbCategory" id="TbCategoryResult">
+        <result property="parentId" column="parent_id"/>
+        <result property="parentName" column="parent_name"/>
+        <result property="categoryCode" column="category_code"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="level" column="level"/>
+        <result property="sortOrder" column="sort_order"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="delFlg" column="del_flg"/>
+    </resultMap>
+
+    <sql id="selectTbCategoryVo">
+        select parent_id,
+               parent_name,
+               category_code,
+               category_name,
+               level,
+               sort_order,
+               create_time,
+               update_time,
+               create_by,
+               update_by,
+               del_flg
+        from tb_category
+    </sql>
+
+    <select id="selectTbCategoryList" parameterType="TbCategory" resultMap="TbCategoryResult">
+        <include refid="selectTbCategoryVo"/>
+        <where>
+            <if test="parentName != null  and parentName != ''">and parent_name like concat('%', #{parentName}, '%')
+            </if>
+            <if test="categoryName != null  and categoryName != ''">and category_name like concat('%', #{categoryName},
+                '%')
+            </if>
+            <if test="sortOrder != null ">and sort_order = #{sortOrder}</if>
+        </where>
+    </select>
+
+    <select id="selectTbCategoryListByParentId" parameterType="String" resultMap="TbCategoryResult">
+        <include refid="selectTbCategoryVo"/>
+        where parent_id = #{parentId}
+    </select>
+
+
+    <select id="selectTbCategoryByParentId" parameterType="String" resultMap="TbCategoryResult">
+        <include refid="selectTbCategoryVo"/>
+        where parent_id = #{parentId}
+    </select>
+
+    <insert id="insertTbCategory" parameterType="TbCategory">
+        insert into tb_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">parent_id,</if>
+            <if test="parentName != null and parentName != ''">parent_name,</if>
+            <if test="categoryCode != null">category_code,</if>
+            <if test="categoryName != null and categoryName != ''">category_name,</if>
+            <if test="level != null">level,</if>
+            <if test="sortOrder != null">sort_order,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="delFlg != null">del_flg,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">#{parentId},</if>
+            <if test="parentName != null and parentName != ''">#{parentName},</if>
+            <if test="categoryCode != null">#{categoryCode},</if>
+            <if test="categoryName != null and categoryName != ''">#{categoryName},</if>
+            <if test="level != null">#{level},</if>
+            <if test="sortOrder != null">#{sortOrder},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="delFlg != null">#{delFlg},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTbCategory" parameterType="TbCategory">
+        update tb_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentName != null and parentName != ''">parent_name = #{parentName},</if>
+            <if test="categoryCode != null">category_code = #{categoryCode},</if>
+            <if test="categoryName != null and categoryName != ''">category_name = #{categoryName},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="sortOrder != null">sort_order = #{sortOrder},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="delFlg != null">del_flg = #{delFlg},</if>
+        </trim>
+        where parent_id = #{parentId}
+    </update>
+
+    <delete id="deleteTbCategoryByParentIdAndCode" parameterType="String">
+        delete
+        from tb_category
+        where parent_id = #{parentId}
+          and category_code = #{categoryCode}
+    </delete>
+
+    <delete id="deleteTbCategoryByUniqueKeys">
+        delete from tb_category where
+        <foreach item="uniqueKey" collection="array" separator=" or ">
+            (parent_id = SUBSTRING_INDEX(#{uniqueKey}, '-', 1)
+            and category_code = SUBSTRING_INDEX(#{uniqueKey}, '-', -1))
+        </foreach>
+    </delete>
+</mapper>
